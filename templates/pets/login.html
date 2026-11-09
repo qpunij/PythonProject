@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+
+{% block title %}登录 - 宠物生病管理系统{% endblock %}
+
+{% block body %}
+<div class="login-box">
+    <h1>宠物生病管理系统</h1>
+
+    {% if error %}<div class="msg msg-error">{{ error }}</div>{% endif %}
+
+    <form method="post" action="{% url 'login' %}">
+        {% csrf_token %}
+        <div class="form-row">
+            <label>用户名</label>
+            <input type="text" name="username" value="{{ username }}" placeholder="请输入用户名">
+        </div>
+        <div class="form-row">
+            <label>密　码</label>
+            <input type="password" name="password" placeholder="请输入密码">
+        </div>
+        <div class="form-actions">
+            <button class="btn" type="submit">登 录</button>
+            <a class="btn btn-gray" href="{% url 'register' %}">去注册</a>
+        </div>
+    </form>
+</div>
+{% endblock %}

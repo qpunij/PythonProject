@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+
+{% block title %}{{ title }} - 宠物生病管理系统{% endblock %}
+
+{% block content %}
+<h1>{{ title }}</h1>
+
+<div class="msg msg-error">确定要删除「{{ object }}」吗？删除后不能恢复。</div>
+
+<form method="post">
+    {% csrf_token %}
+    <button class="btn btn-danger" type="submit">确定删除</button>
+    <a class="btn btn-gray" href="{% url back_url %}">取 消</a>
+</form>
+{% endblock %}

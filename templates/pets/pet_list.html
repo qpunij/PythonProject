@@ -1,0 +1,41 @@
+{% extends 'base.html' %}
+
+{% block title %}我的宠物 - 宠物生病管理系统{% endblock %}
+
+{% block content %}
+<div class="toolbar">
+    <h1 style="margin:0">我的宠物</h1>
+    <div style="display:flex; gap:10px; align-items:center;">
+        <form method="get" action="{% url 'pet_list' %}">
+            <input type="text" name="keyword" value="{{ keyword }}" placeholder="按宠物名搜索">
+            <button class="btn" type="submit">搜索</button>
+        </form>
+        <a class="btn" href="{% url 'pet_add' %}">+ 添加宠物</a>
+    </div>
+</div>
+
+<table>
+    <tr>
+        <th>编号</th><th>宠物名</th><th>种类</th><th>性别</th>
+        <th>年龄</th><th>体重(kg)</th><th>录入时间</th><th>操作</th>
+    </tr>
+    {% for pet in pets %}
+        <tr>
+            <td>{{ pet.id }}</td>
+            <td>{{ pet.name }}</td>
+            <td>{{ pet.species }}</td>
+            <td>{{ pet.gender }}</td>
+            <td>{{ pet.age }}</td>
+            <td>{{ pet.weight }}</td>
+            <td>{{ pet.created|date:"Y-m-d" }}</td>
+            <td>
+                <a class="btn btn-sm" href="{% url 'record_add_for_pet' pet.id %}">记病情</a>
+                <a class="btn btn-sm btn-gray" href="{% url 'pet_edit' pet.id %}">修改</a>
+                <a class="btn btn-sm btn-danger" href="{% url 'pet_delete' pet.id %}">删除</a>
+            </td>
+        </tr>
+    {% empty %}
+        <tr><td colspan="8" class="empty">还没有宠物，点右上角添加一只吧</td></tr>
+    {% endfor %}
+</table>
+{% endblock %}

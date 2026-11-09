@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+
+{% block title %}{{ title }} - 宠物生病管理系统{% endblock %}
+
+{% block content %}
+<h1>{{ title }}</h1>
+
+<form method="post">
+    {% csrf_token %}
+    {% for field in form %}
+        <div class="form-row">
+            <label>{{ field.label }}</label>
+            {{ field }}
+            {{ field.errors }}
+        </div>
+    {% endfor %}
+    <div class="form-actions">
+        <button class="btn" type="submit">保 存</button>
+        <a class="btn btn-gray" href="{% url 'record_list' %}">返 回</a>
+    </div>
+</form>
+{% endblock %}

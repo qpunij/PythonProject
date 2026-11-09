@@ -1,0 +1,38 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title %}宠物生病管理系统{% endblock %}</title>
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+</head>
+<body>
+<div class="navbar">
+    <span class="brand">🐾 宠物生病管理系统</span>
+    <div>
+        {% if user.is_authenticated %}
+            <a href="{% url 'index' %}">首页</a>
+            <a href="{% url 'pet_list' %}">我的宠物</a>
+            <a href="{% url 'record_list' %}">就诊记录</a>
+            {% if user.is_staff %}<a href="/admin/">后台管理</a>{% endif %}
+            <span class="user">你好，{{ user.username }}</span>
+            <a href="{% url 'logout' %}">退出</a>
+        {% else %}
+            <a href="{% url 'login' %}">登录</a>
+            <a href="{% url 'register' %}">注册</a>
+        {% endif %}
+    </div>
+</div>
+
+{% block body %}
+<div class="container">
+    {% if messages %}
+        {% for message in messages %}
+            <div class="msg msg-success">{{ message }}</div>
+        {% endfor %}
+    {% endif %}
+    {% block content %}{% endblock %}
+</div>
+{% endblock %}
+</body>
+</html>

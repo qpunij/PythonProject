@@ -1,0 +1,51 @@
+{% extends 'base.html' %}
+
+{% block title %}就诊记录 - 宠物生病管理系统{% endblock %}
+
+{% block content %}
+<div class="toolbar">
+    <h1 style="margin:0">就诊记录</h1>
+    <div style="display:flex; gap:10px; align-items:center;">
+        <form method="get" action="{% url 'record_list' %}">
+            <select name="status">
+                <option value="">全部状态</option>
+                <option value="治疗中" {% if status == '治疗中' %}selected{% endif %}>治疗中</option>
+                <option value="已痊愈" {% if status == '已痊愈' %}selected{% endif %}>已痊愈</option>
+            </select>
+            <button class="btn" type="submit">筛选</button>
+        </form>
+        <a class="btn" href="{% url 'record_add' %}">+ 添加记录</a>
+    </div>
+</div>
+
+<table>
+    <tr>
+        <th>编号</th><th>宠物</th><th>病名</th><th>就诊日期</th>
+        <th>医院</th><th>用药</th><th>花费</th><th>状态</th><th>操作</th>
+    </tr>
+    {% for r in records %}
+        <tr>
+            <td>{{ r.id }}</td>
+            <td>{{ r.pet.name }}</td>
+            <td>{{ r.disease }}</td>
+            <td>{{ r.visit_date|date:"Y-m-d" }}</td>
+            <td>{{ r.hospital|default:"—" }}</td>
+            <td>{{ r.medicine|default:"—" }}</td>
+            <td>{{ r.cost }}</td>
+            <td>
+                {% if r.status == '治疗中' %}
+                    <span class="status-sick">治疗中</span>
+                {% else %}
+                    <span class="status-cured">已痊愈</span>
+                {% endif %}
+            </td>
+            <td>
+                <a class="btn btn-sm btn-gray" href="{% url 'record_edit' r.id %}">修改</a>
+                <a class="btn btn-sm btn-danger" href="{% url 'record_delete' r.id %}">删除</a>
+            </td>
+        </tr>
+    {% empty %}
+        <tr><td colspan="9" class="empty">还没有就诊记录</td></tr>
+    {% endfor %}
+</table>
+{% endblock %}

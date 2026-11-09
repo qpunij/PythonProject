@@ -1,0 +1,51 @@
+{% extends 'base.html' %}
+
+{% block title %}首页 - 宠物生病管理系统{% endblock %}
+
+{% block content %}
+<h1>我的宠物</h1>
+
+<div class="cards">
+    <div class="card">
+        <div class="num">{{ pet_count }}</div>
+        <div class="label">宠物数量</div>
+    </div>
+    <div class="card">
+        <div class="num">{{ sick_count }}</div>
+        <div class="label">治疗中</div>
+    </div>
+    <div class="card">
+        <div class="num">{{ cured_count }}</div>
+        <div class="label">已痊愈</div>
+    </div>
+    <div class="card">
+        <div class="num">{{ total_cost }}</div>
+        <div class="label">累计花费(元)</div>
+    </div>
+</div>
+
+<h2>最近的生病记录</h2>
+<table>
+    <tr>
+        <th>宠物</th><th>病名</th><th>就诊日期</th><th>医院</th><th>花费</th><th>状态</th>
+    </tr>
+    {% for r in recent %}
+        <tr>
+            <td>{{ r.pet.name }}</td>
+            <td>{{ r.disease }}</td>
+            <td>{{ r.visit_date|date:"Y-m-d" }}</td>
+            <td>{{ r.hospital|default:"—" }}</td>
+            <td>{{ r.cost }}</td>
+            <td>
+                {% if r.status == '治疗中' %}
+                    <span class="status-sick">{{ r.status }}</span>
+                {% else %}
+                    <span class="status-cured">{{ r.status }}</span>
+                {% endif %}
+            </td>
+        </tr>
+    {% empty %}
+        <tr><td colspan="6" class="empty">还没有生病记录</td></tr>
+    {% endfor %}
+</table>
+{% endblock %}
